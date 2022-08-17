@@ -37,18 +37,18 @@ function operate(operator, number1, number2) {
 
 function manageInputs(keyInput) {
     const input = this.value || keyInput
-    if (operators[0] === undefined) {
+    if (operators === "") {
         if (/[0-9]/.test(input)) {
             number1 += input
         } else {
             operators = input
-            showResults(number1)
+            showResults(number1, operators)
         }
     } else if (/[0-9]/.test(input)) {
         number2 += input
     } else {
         operators = input
-        // showResults(number1)
+        showResults(number1, operators)
     }
     showInput(input)
 }
@@ -71,15 +71,19 @@ function clear() {
     })
     number1 = ""
     number2 = ""
-    operators = []
+    operators = ""
     counter = 0
+}
+
+function updateDisplay() {
+    document.querySelector(".previous-data").value = `${document.querySelector(".input-data").value}`
 }
 
 function showInput(value) {
     document.querySelector(".input-data").value += `${value}`
 }
 
-function showResults(result) {
+function showResults(result, operator) {
     document.querySelector(".previous-data").value = document.querySelector(".input-data").value
     document.querySelector(".input-data").value = `${result}`
 }

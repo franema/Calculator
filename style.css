@@ -22,6 +22,8 @@ body {
     width: 400px;
     height: 400px;
     justify-content: space-around;
+    padding: 15px;
+    background-color: rgb(116, 115, 115);
 }
 
 .display {
