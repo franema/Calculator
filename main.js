@@ -2,10 +2,10 @@ const numbersButtons = document.querySelectorAll(".number")
 const operatorsButtons = document.querySelectorAll(".operator")
 const clearButton = document.querySelector(".clear")
 const equalButton = document.querySelector(".equal")
+const eraseButton = document.querySelector(".erase")
 let number1 = ""
 let number2 = ""
 let operators = ""
-let counter = 0
 
 function add(number1, number2) {
     return number1 + number2
@@ -32,6 +32,8 @@ function operate(operator, number1, number2) {
         return divide(number1, number2)
     } else if (operator === "*") {
         return multiply(number1, number2)
+    } else {
+        return "ERROR"
     }
 }
 
@@ -39,30 +41,34 @@ function manageInputs(keyInput) {
     const input = this.value || keyInput
     if (operators === "") {
         if (/[0-9]/.test(input)) {
-            number1 += input
+            showNumber(input)
         } else {
+            number1 = document.querySelector(".input-data").value
             operators = input
-            showResults(number1, operators)
+            showFirstOperator(input)
         }
     } else if (/[0-9]/.test(input)) {
-        number2 += input
+        showNumber(input)
     } else {
         operators = input
-        showResults(number1, operators)
+        number2 = ""
+        showSecondOperator(input)
     }
-    showInput(input)
+
 }
 
 function calculate() {
     let result = 0
+    number2 = document.querySelector(".input-data").value
     result = operate(operators, Number(number1), Number(number2))
     showResults(result)
     prepareNextCalculus(result)
 }
 
 function prepareNextCalculus(result) {
-    number1 = result
+    number1 = result.toString()
     number2 = ""
+    // operators = ""
 }
 
 function clear() {
@@ -72,18 +78,25 @@ function clear() {
     number1 = ""
     number2 = ""
     operators = ""
-    counter = 0
 }
 
-function updateDisplay() {
-    document.querySelector(".previous-data").value = `${document.querySelector(".input-data").value}`
+function showFirstOperator(input) {
+    document.querySelector(".input-data").value = ``
+    document.querySelector(".previous-data").value += ` ${input} `
+
 }
 
-function showInput(value) {
-    document.querySelector(".input-data").value += `${value}`
+function showNumber(input) {
+    document.querySelector(".input-data").value += `${input}`
+    document.querySelector(".previous-data").value += `${input}`
 }
 
-function showResults(result, operator) {
+function showSecondOperator(input) {
+    document.querySelector(".previous-data").value = `${document.querySelector(".input-data").value} ${input} `
+    document.querySelector(".input-data").value = ``
+}
+
+function showResults(result) {
     document.querySelector(".previous-data").value = document.querySelector(".input-data").value
     document.querySelector(".input-data").value = `${result}`
 }
@@ -97,6 +110,15 @@ function manageKeyInputs(e) {
     }
 }
 
+function erase() {
+    document.querySelector(".input-data").value = (document.querySelector(".input-data").value).slice(0, -1)
+    const previousData = document.querySelector(".previous-data").value
+    if (!/ $/.test(previousData)) {
+        document.querySelector(".previous-data").value = (document.querySelector(".previous-data").value).slice(0, -1)
+    }
+    
+}
+
 numbersButtons.forEach(function (button) {
     button.addEventListener("click", manageInputs)
 })
@@ -107,6 +129,7 @@ operatorsButtons.forEach(function (button) {
 
 clearButton.addEventListener("click", clear)
 equalButton.addEventListener("click", calculate)
+eraseButton.addEventListener("click", erase)
 window.addEventListener("keydown", manageKeyInputs)
 
 

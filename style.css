@@ -24,6 +24,7 @@ body {
     justify-content: space-around;
     padding: 15px;
     background-color: rgb(116, 115, 115);
+    gap: 15px;
 }
 
 .display {
@@ -50,12 +51,14 @@ input {
 .operators {
     display: flex;
     flex: 1;
+    gap: 5px;
 }
 
 .numbers {
     display: flex;
     flex-wrap: wrap;
     flex: 1;
+    gap: 5px;
 }
 
 .numbers button {
@@ -64,6 +67,7 @@ input {
 .send {
     display: flex;
     flex: 1;
+    gap: 5px;
 }
 
 button {
