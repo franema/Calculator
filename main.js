@@ -49,26 +49,30 @@ function manageInputs(keyInput) {
         }
     } else if (/[0-9]/.test(input)) {
         showNumber(input)
+    } else if (number2 === "") {
+        operators = input
+        showFirstOperator(input)
     } else {
         operators = input
         number2 = ""
         showSecondOperator(input)
     }
-
 }
 
 function calculate() {
     let result = 0
     number2 = document.querySelector(".input-data").value
     result = operate(operators, Number(number1), Number(number2))
-    showResults(result)
-    prepareNextCalculus(result)
+    if (result !== "ERROR") {
+        showResults(result)
+        prepareNextCalculus(result)
+     } 
 }
 
 function prepareNextCalculus(result) {
     number1 = result.toString()
     number2 = ""
-    // operators = ""
+    operators = ""
 }
 
 function clear() {
@@ -82,7 +86,7 @@ function clear() {
 
 function showFirstOperator(input) {
     document.querySelector(".input-data").value = ``
-    document.querySelector(".previous-data").value += ` ${input} `
+    document.querySelector(".previous-data").value = `${number1} ${input} `
 
 }
 
@@ -92,12 +96,12 @@ function showNumber(input) {
 }
 
 function showSecondOperator(input) {
-    document.querySelector(".previous-data").value = `${document.querySelector(".input-data").value} ${input} `
+    document.querySelector(".previous-data").value = `${number1} ${input} `
     document.querySelector(".input-data").value = ``
 }
 
 function showResults(result) {
-    document.querySelector(".previous-data").value = document.querySelector(".input-data").value
+    document.querySelector(".previous-data").value = `${number1} ${operators} ${number2}`
     document.querySelector(".input-data").value = `${result}`
 }
 
@@ -116,7 +120,7 @@ function erase() {
     if (!/ $/.test(previousData)) {
         document.querySelector(".previous-data").value = (document.querySelector(".previous-data").value).slice(0, -1)
     }
-    
+
 }
 
 numbersButtons.forEach(function (button) {
