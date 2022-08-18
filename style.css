@@ -12,6 +12,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgb(177, 175, 172);
+    flex-direction: column;
 }
 
 .container {
@@ -75,6 +76,13 @@ button {
     border: 1px solid rgb(170, 99, 252);
     color: rgb(170, 99, 252);
     border-radius: 4px;
+    transition: all 0.5s;
+}
+
+.pressed {
+    background-color: rgb(170, 99, 252);
+    color: rgb(228, 201, 248);
+    scale: 1.05;
 }
 
 .operator {
@@ -85,4 +93,18 @@ button {
 .equal {
     background-color: rgb(161, 161, 185);
     color: rgb(71, 71, 226);
+}
+
+h1 {
+    margin: 50px;
+    margin-top: 0px;
+    color: rgb(170, 99, 252);
+    background-color: rgb(212, 190, 233);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.over {
+    border: 1px solid rgb(182, 182, 182);
+    scale: 1.01;
 }
