@@ -12,6 +12,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgb(177, 175, 172);
+    flex-direction: column;
 }
 
 .container {
@@ -20,10 +21,10 @@ body {
     border: 1px solid rgb(212, 212, 212);
     border-radius: 4px;
     width: 400px;
-    height: 400px;
+    height: 600px;
     justify-content: space-around;
     padding: 15px;
-    background-color: rgb(116, 115, 115);
+    background-color: rgb(140, 102, 190);
     gap: 15px;
 }
 
@@ -31,6 +32,7 @@ body {
     display: flex;
     flex: 1;
     flex-direction: column;
+    border-radius: 4px;
 }
 
 input {
@@ -42,13 +44,15 @@ input {
     flex: 1;
     padding: 15px;
     font-size: large;
+    color: rgb(49, 49, 216);
 }
 .previous-data {
     flex: 0;
     padding: 5px 15px;
+    color: rgb(49, 49, 216);
 }
 
-.operators {
+.delete {
     display: flex;
     flex: 1;
     gap: 5px;
@@ -62,14 +66,45 @@ input {
 }
 
 .numbers button {
-    padding: 30px 30px;
-}
-.send {
-    display: flex;
-    flex: 1;
-    gap: 5px;
+    padding: 40px 40px;
 }
 
 button {
     flex: 1;
+    font-size: large;
+    background-color: rgb(212, 190, 233);
+    border: 1px solid rgb(170, 99, 252);
+    color: rgb(170, 99, 252);
+    border-radius: 4px;
+    transition: all 0.5s;
+}
+
+.pressed {
+    background-color: rgb(170, 99, 252);
+    color: rgb(228, 201, 248);
+    scale: 1.05;
+}
+
+.operator {
+    background-color: rgb(166, 166, 226);
+    color: rgb(71, 71, 226);
+}
+
+.equal {
+    background-color: rgb(161, 161, 185);
+    color: rgb(71, 71, 226);
+}
+
+h1 {
+    margin: 50px;
+    margin-top: 0px;
+    color: rgb(170, 99, 252);
+    background-color: rgb(212, 190, 233);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.over {
+    border: 1px solid rgb(182, 182, 182);
+    scale: 1.01;
 }
