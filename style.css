@@ -23,7 +23,7 @@ body {
     height: 600px;
     justify-content: space-around;
     padding: 15px;
-    background-color: rgb(116, 115, 115);
+    background-color: rgb(140, 102, 190);
     gap: 15px;
 }
 
@@ -31,6 +31,7 @@ body {
     display: flex;
     flex: 1;
     flex-direction: column;
+    border-radius: 4px;
 }
 
 input {
@@ -42,10 +43,12 @@ input {
     flex: 1;
     padding: 15px;
     font-size: large;
+    color: rgb(49, 49, 216);
 }
 .previous-data {
     flex: 0;
     padding: 5px 15px;
+    color: rgb(49, 49, 216);
 }
 
 .delete {
@@ -68,4 +71,18 @@ input {
 button {
     flex: 1;
     font-size: large;
+    background-color: rgb(212, 190, 233);
+    border: 1px solid rgb(170, 99, 252);
+    color: rgb(170, 99, 252);
+    border-radius: 4px;
+}
+
+.operator {
+    background-color: rgb(166, 166, 226);
+    color: rgb(71, 71, 226);
+}
+
+.equal {
+    background-color: rgb(161, 161, 185);
+    color: rgb(71, 71, 226);
 }
