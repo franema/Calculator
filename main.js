@@ -47,17 +47,16 @@ function manageInputs(keyInput) {
         } else {
             number1 = document.querySelector(".input-data").value
             operators = input
-            showFirstOperator(transformOperator (input))
+            showFirstOperator(transformOperator(input))
         }
     } else if (/[0-9]|\./.test(input)) {
         showNumber(input)
     } else if (number2 === "") {
+        if (document.querySelector(".input-data").value !== "") {
+            calculate()
+        }
         operators = input
         showFirstOperator(transformOperator(input))
-    } else {
-        operators = input
-        number2 = ""
-        showSecondOperator(transformOperator(input))
     }
 }
 
@@ -99,11 +98,6 @@ function showNumber(input) {
     document.querySelector(".input-data").value += `${input}`
 }
 
-function showSecondOperator(input) {
-    document.querySelector(".previous-data").value = `${number1} ${input} `
-    document.querySelector(".input-data").value = ``
-}
-
 function showResults(result) {
     document.querySelector(".previous-data").value = `${number1} ${transformOperator(operators)} ${number2}`
     document.querySelector(".input-data").value = `${result}`
@@ -116,7 +110,7 @@ function manageKeyInputs(e) {
     if (e.key === "Enter") {
         calculate()
     }
-    if(e.key === "Backspace") {
+    if (e.key === "Backspace") {
         erase()
     }
 }
@@ -138,25 +132,25 @@ function removeDecimals(result) {
 function addClickEffect(key) {
     const keyPressed = document.querySelector(`[value="${key}"]`) || key
     keyPressed.classList.add("pressed")
-    setTimeout (function () {
+    setTimeout(function () {
         keyPressed.classList.remove("pressed")
     }, 500)
 }
 
-function effectMouseOver () {
+function effectMouseOver() {
     const key = this
     key.classList.add("over")
-    setTimeout (function () {
+    setTimeout(function () {
         key.classList.remove("over")
     }, 500)
 }
 
-function transformOperator (operator) {
+function transformOperator(operator) {
     if (operator === "/") {
         return "÷"
     } else if (operator === "*") {
         return "x"
-    } 
+    }
     return operator
 }
 
