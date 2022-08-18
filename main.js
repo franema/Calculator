@@ -1,3 +1,4 @@
+const buttons = document.querySelectorAll("button")
 const numbersButtons = document.querySelectorAll(".number")
 const operatorsButtons = document.querySelectorAll(".operator")
 const clearButton = document.querySelector(".clear")
@@ -39,34 +40,37 @@ function operate(operator, number1, number2) {
 
 function manageInputs(keyInput) {
     const input = this.value || keyInput
+    addClickEffect(input)
     if (operators === "") {
-        if (/[0-9]/.test(input)) {
+        if (/[0-9]|\./.test(input)) {
             showNumber(input)
         } else {
             number1 = document.querySelector(".input-data").value
             operators = input
-            showFirstOperator(input)
+            showFirstOperator(transformOperator (input))
         }
-    } else if (/[0-9]/.test(input)) {
+    } else if (/[0-9]|\./.test(input)) {
         showNumber(input)
     } else if (number2 === "") {
         operators = input
-        showFirstOperator(input)
+        showFirstOperator(transformOperator(input))
     } else {
         operators = input
         number2 = ""
-        showSecondOperator(input)
+        showSecondOperator(transformOperator(input))
     }
 }
 
 function calculate() {
+    addClickEffect("Enter")
     let result = 0
     number2 = document.querySelector(".input-data").value
     result = operate(operators, Number(number1), Number(number2))
-    if (result !== "ERROR") {
+    result = removeDecimals(result)
+    if (result !== "ERROR" && !isNaN(result) && result !== undefined) {
         showResults(result)
         prepareNextCalculus(result)
-     } 
+    }
 }
 
 function prepareNextCalculus(result) {
@@ -76,6 +80,7 @@ function prepareNextCalculus(result) {
 }
 
 function clear() {
+    addClickEffect(this)
     document.querySelectorAll("input").forEach(function (input) {
         input.value = ""
     })
@@ -92,7 +97,6 @@ function showFirstOperator(input) {
 
 function showNumber(input) {
     document.querySelector(".input-data").value += `${input}`
-    document.querySelector(".previous-data").value += `${input}`
 }
 
 function showSecondOperator(input) {
@@ -101,20 +105,24 @@ function showSecondOperator(input) {
 }
 
 function showResults(result) {
-    document.querySelector(".previous-data").value = `${number1} ${operators} ${number2}`
+    document.querySelector(".previous-data").value = `${number1} ${transformOperator(operators)} ${number2}`
     document.querySelector(".input-data").value = `${result}`
 }
 
 function manageKeyInputs(e) {
-    if (/^[0-9]|\+|-|\/|\*/.test(e.key)) {
+    if (/^[0-9]|\.|\+|-|\/|\*/.test(e.key)) {
         manageInputs(e.key)
     }
     if (e.key === "Enter") {
         calculate()
     }
+    if(e.key === "Backspace") {
+        erase()
+    }
 }
 
 function erase() {
+    addClickEffect("Backspace")
     document.querySelector(".input-data").value = (document.querySelector(".input-data").value).slice(0, -1)
     const previousData = document.querySelector(".previous-data").value
     if (!/ $/.test(previousData)) {
@@ -122,6 +130,36 @@ function erase() {
     }
 
 }
+
+function removeDecimals(result) {
+    return Math.floor(result * 1000) / 1000
+}
+
+function addClickEffect(key) {
+    const keyPressed = document.querySelector(`[value="${key}"]`) || key
+    keyPressed.classList.add("pressed")
+    setTimeout (function () {
+        keyPressed.classList.remove("pressed")
+    }, 500)
+}
+
+function effectMouseOver () {
+    const key = this
+    key.classList.add("over")
+    setTimeout (function () {
+        key.classList.remove("over")
+    }, 500)
+}
+
+function transformOperator (operator) {
+    if (operator === "/") {
+        return "÷"
+    } else if (operator === "*") {
+        return "x"
+    } 
+    return operator
+}
+
 
 numbersButtons.forEach(function (button) {
     button.addEventListener("click", manageInputs)
@@ -135,6 +173,10 @@ clearButton.addEventListener("click", clear)
 equalButton.addEventListener("click", calculate)
 eraseButton.addEventListener("click", erase)
 window.addEventListener("keydown", manageKeyInputs)
+
+buttons.forEach(function (button) {
+    button.addEventListener("mouseover", effectMouseOver)
+})
 
 
 
