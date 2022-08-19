@@ -6,7 +6,8 @@ const equalButton = document.querySelector(".equal")
 const eraseButton = document.querySelector(".erase")
 let number1 = ""
 let number2 = ""
-let operators = ""
+let operator = ""
+let enterFlag = false 
 
 function add(number1, number2) {
     return number1 + number2
@@ -41,13 +42,13 @@ function operate(operator, number1, number2) {
 function manageInputs(keyInput) {
     const input = this.value || keyInput
     addClickEffect(input)
-    if (operators === "") {
+    if (operator === "") {
         if (/[0-9]|\./.test(input)) {
             showNumber(input)
         } else {
             number1 = document.querySelector(".input-data").value
-            operators = input
-            showFirstOperator(transformOperator(input))
+            operator = input
+            showOperator(transformOperator(input))
         }
     } else if (/[0-9]|\./.test(input)) {
         showNumber(input)
@@ -55,8 +56,8 @@ function manageInputs(keyInput) {
         if (document.querySelector(".input-data").value !== "") {
             calculate()
         }
-        operators = input
-        showFirstOperator(transformOperator(input))
+        operator = input
+        showOperator(transformOperator(input))
     }
 }
 
@@ -64,7 +65,7 @@ function calculate() {
     addClickEffect("Enter")
     let result = 0
     number2 = document.querySelector(".input-data").value
-    result = operate(operators, Number(number1), Number(number2))
+    result = operate(operator, Number(number1), Number(number2))
     result = removeDecimals(result)
     if (result !== "ERROR" && !isNaN(result) && result !== undefined) {
         showResults(result)
@@ -75,7 +76,7 @@ function calculate() {
 function prepareNextCalculus(result) {
     number1 = result.toString()
     number2 = ""
-    operators = ""
+    operator = ""
 }
 
 function clear() {
@@ -85,10 +86,10 @@ function clear() {
     })
     number1 = ""
     number2 = ""
-    operators = ""
+    operator = ""
 }
 
-function showFirstOperator(input) {
+function showOperator(input) {
     document.querySelector(".input-data").value = ``
     document.querySelector(".previous-data").value = `${number1} ${input} `
 
@@ -99,7 +100,7 @@ function showNumber(input) {
 }
 
 function showResults(result) {
-    document.querySelector(".previous-data").value = `${number1} ${transformOperator(operators)} ${number2}`
+    document.querySelector(".previous-data").value = `${number1} ${transformOperator(operator)} ${number2}`
     document.querySelector(".input-data").value = `${result}`
 }
 
@@ -109,6 +110,7 @@ function manageKeyInputs(e) {
     }
     if (e.key === "Enter") {
         calculate()
+        setEnterFlag()
     }
     if (e.key === "Backspace") {
         erase()
@@ -121,8 +123,11 @@ function erase() {
     const previousData = document.querySelector(".previous-data").value
     if (!/ $/.test(previousData)) {
         document.querySelector(".previous-data").value = (document.querySelector(".previous-data").value).slice(0, -1)
+    } 
+    if (enterFlag) {
+        document.querySelector(".previous-data").value = ""
+        enterFlag = false
     }
-
 }
 
 function removeDecimals(result) {
@@ -154,6 +159,9 @@ function transformOperator(operator) {
     return operator
 }
 
+function setEnterFlag () {
+    enterFlag = true
+}
 
 numbersButtons.forEach(function (button) {
     button.addEventListener("click", manageInputs)
@@ -164,7 +172,10 @@ operatorsButtons.forEach(function (button) {
 })
 
 clearButton.addEventListener("click", clear)
-equalButton.addEventListener("click", calculate)
+equalButton.addEventListener("click", function () {
+    calculate()
+    setEnterFlag()
+})
 eraseButton.addEventListener("click", erase)
 window.addEventListener("keydown", manageKeyInputs)
 
